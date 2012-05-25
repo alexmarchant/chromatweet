@@ -11,12 +11,13 @@ function checkForValidUrl(tabId, changeInfo, tab) {
   }
 };
 
-function updateIcon() {
-  if iconToggle === 0 {
-    chrome.pageAction.setIcon({path:"bw-icon.png"});
+function updateIcon(tabId) {
+  console.log(tabId.id);
+  if (iconToggle === 0) {
+    chrome.pageAction.setIcon({path:"icons/bw-icon.png", tabId: tabId.id});
     iconToggle = 1;
   } else {
-    chrome.pageAction.setIcon({path:"bw-icon.png"});
+    chrome.pageAction.setIcon({path:"icons/icon.png", tabId: tabId.id});
     iconToggle = 0;
   }
 }
@@ -24,4 +25,4 @@ function updateIcon() {
 // Listen for any changes to the URL of any tab.
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
 // Changes icon on-click.
-// chrome.pageAction.onClicked.addListener(updateIcon);
+chrome.pageAction.onClicked.addListener(updateIcon);
