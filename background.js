@@ -12,7 +12,6 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 };
 
 function toggleIconAndHighlights(tab) {
-  console.log(tab.id);
   if (iconToggle === 0) {
     chrome.pageAction.setIcon({path:"icons/icon_19-bw.png", tabId: tab.id});
     chrome.tabs.executeScript(tab.id, {
