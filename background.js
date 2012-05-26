@@ -2,14 +2,33 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// Called when the url of a tab changes.
+// 0 represents color icon, 1 b/w
+var iconToggle = 0;
+
 function checkForValidUrl(tabId, changeInfo, tab) {
-  // If the host is found to be twitter
   if (tab.url.match(/twitter.com/)) {
-    // ... show the page action.
     chrome.pageAction.show(tabId);
   }
 };
 
+function toggleIconAndHighlights(tab) {
+  console.log(tab.id);
+  if (iconToggle === 0) {
+    chrome.pageAction.setIcon({path:"icons/icon_19-bw.png", tabId: tab.id});
+    chrome.tabs.executeScript(tab.id, {
+      file: "hide-highlights.js"
+    });
+    iconToggle = 1;
+  } else {
+    chrome.pageAction.setIcon({path:"icons/icon_19.png", tabId: tab.id});
+    chrome.tabs.executeScript(tab.id, {
+      file: "show-highlights.js"
+    });
+    iconToggle = 0;
+  }
+}
+
 // Listen for any changes to the URL of any tab.
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
+// Changes icon on-click.
+chrome.pageAction.onClicked.addListener(toggleIconAndHighlights);
