@@ -1,6 +1,6 @@
 {
   "name": "Color Code Twitter",
-  "version": "1.2",
+  "version": "1.2.1",
   "manifest_version": 2,
   "description": "Color code and group your tweets.",
   "icons": {
@@ -24,7 +24,6 @@
   },
   "permissions" : [
     "tabs",
-    "http://*.flickr.com/*",
     "https://*.twitter.com/*"
   ]
 }
