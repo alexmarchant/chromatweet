@@ -18,6 +18,8 @@
     "default_icon": "icons/icon.png"
   },
   "permissions" : [
-    "tabs"
+    "tabs",
+    "http://*.flickr.com/*",
+    "https://*.twitter.com/*"
   ]
 }
