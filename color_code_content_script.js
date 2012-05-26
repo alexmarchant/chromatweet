@@ -122,6 +122,8 @@ function initializer() {
   }    
 }
 
+
+
 $(document).ready(function () {
   "use strict";
   initializer();
