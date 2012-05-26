@@ -15,13 +15,13 @@ function toggleIconAndHighlights(tab) {
   if (iconToggle === 0) {
     chrome.pageAction.setIcon({path:"icons/icon_19-bw.png", tabId: tab.id});
     chrome.tabs.executeScript(tab.id, {
-      file: "hide-highlights.js"
+      file: "scripts/hide-highlights.js"
     });
     iconToggle = 1;
   } else {
     chrome.pageAction.setIcon({path:"icons/icon_19.png", tabId: tab.id});
     chrome.tabs.executeScript(tab.id, {
-      file: "show-highlights.js"
+      file: "scripts/show-highlights.js"
     });
     iconToggle = 0;
   }

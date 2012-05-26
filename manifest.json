@@ -1,6 +1,6 @@
 {
   "name": "Color Code Twitter",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "manifest_version": 2,
   "description": "Color code and group your tweets.",
   "icons": {
@@ -8,10 +8,8 @@
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
   },
-  "background": { 
-    "scripts": [
-      "background.js"
-    ] 
+  "background": {
+    "page": "background.html"
   },
   "content_scripts": [
     {
@@ -26,6 +24,6 @@
     "tabs",
     "https://*.twitter.com/*"
   ],
-  "content_security_policy": 
+  "content_security_policy":
     "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }
