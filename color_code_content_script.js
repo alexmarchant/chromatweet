@@ -30,12 +30,24 @@ function saveStorage() {
   localStorage.colorCodeStore = JSON.stringify(storage);
 }
 
+function removeAllFromStorage(screenName) {
+  var index;
+  for (var key in storage) {
+    index = storage[key].indexOf(screenName);
+    if (index !== -1) {
+      storage[key].splice(index, 1);
+    }
+  }
+}
+
 function toggleStorage(keyCode, screenName) {
   "use strict";
   var index;
   index = storage[keyCode].indexOf(screenName);
   if (index === -1) {
+    removeAllFromStorage(screenName);
     storage[keyCode].push(screenName);
+    addColor(screenName, keyCode);
   } else {
     storage[keyCode].splice(index, 1);
   }
