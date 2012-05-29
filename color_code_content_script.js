@@ -80,6 +80,25 @@ function trackHover() {
   });
 }
 
+function showAllHighlights() {
+  "use strict";
+  $('#hide-highlights').remove();
+}
+
+function hideAllHighlights() {
+  "use strict";
+  var hideHighlights = "<style id='hide-highlights' type='text/css'> .tweet { background-color: white !important; } </style>";
+  $('body').append(hideHighlights);
+}
+
+function toggleAllHighlights() {
+  if ($('#hide-highlights').length > 0) {
+    showAllHighlights();
+  } else {
+    hideAllHighlights();
+  }
+}
+
 function trackKeypress() {
   "use strict";
   $('body').keyup(function (e) {
@@ -92,6 +111,8 @@ function trackKeypress() {
         toggleStorage(e.keyCode, screenName);
         toggleColor(screenName, e.keyCode);
       }
+    } else if (e.keyCode === 48) {
+      toggleAllHighlights();
     }
   });
 }
