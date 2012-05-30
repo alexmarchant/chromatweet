@@ -27,7 +27,7 @@ function toggleIconAndHighlights(tab) {
   }
 }
 
-function listenForContentRequests(request, sender, sendResponse) {
+function listenForContentRequests(request, sender, sendResponse) { 
   if (request.icon === "color") {
     chrome.pageAction.setIcon({path:"icons/icon_19.png", tabId: sender.tab.id});
   } else if (request.icon === "grey") {
