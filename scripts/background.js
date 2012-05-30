@@ -27,11 +27,13 @@ function toggleIconAndHighlights(tab) {
   }
 }
 
-function listenForContentRequests(request, sender, sendResponse) { 
+function listenForContentRequests(request, sender, sendResponse) {
   if (request.icon === "color") {
     chrome.pageAction.setIcon({path:"icons/icon_19.png", tabId: sender.tab.id});
+    iconToggle = 0;
   } else if (request.icon === "grey") {
     chrome.pageAction.setIcon({path:"icons/icon_19-bw.png", tabId: sender.tab.id});
+    iconToggle = 1;
   }
 }
 
