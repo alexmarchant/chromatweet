@@ -27,7 +27,17 @@ function toggleIconAndHighlights(tab) {
   }
 }
 
+function listenForContentRequests(request, sender, sendResponse) {
+  if (request.icon === "color") {
+    chrome.pageAction.setIcon({path:"icons/icon_19.png", tabId: sender.tab.id});
+  } else if (request.icon === "grey") {
+    chrome.pageAction.setIcon({path:"icons/icon_19-bw.png", tabId: sender.tab.id});
+  }
+}
+
 // Listen for any changes to the URL of any tab.
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
 // Changes icon on-click.
 chrome.pageAction.onClicked.addListener(toggleIconAndHighlights);
+// Listens for requests to change the icon.
+chrome.extension.onRequest.addListener(listenForContentRequests);

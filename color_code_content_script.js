@@ -30,19 +30,21 @@ function saveStorage() {
   localStorage.colorCodeStore = JSON.stringify(storage);
 }
 
-function toggleStorage(keyCode, screenName) {
-  "use strict";
+function removeAllFromStorage(screenName) {
   var index;
-  index = storage[keyCode].indexOf(screenName);
-  if (index === -1) {
-    storage[keyCode].push(screenName);
-  } else {
-    storage[keyCode].splice(index, 1);
+  for (var key in storage) {
+    index = storage[key].indexOf(screenName);
+    if (index !== -1) {
+      storage[key].splice(index, 1);
+    }
   }
-  saveStorage();
 }
 
-function addColor(screenName, keyCode) {
+function addToStorage(screenName, keyCode) {
+  storage[keyCode].push(screenName);
+}
+
+function addHighlightingFor(screenName, keyCode) {
   "use strict";
   var styleSheet = "<style id= '" + screenName + "_styles" + "' type='text/css'>" +
     ".tweet[data-screen-name='" + screenName + "'] { background-color:" + colors[keyCode] + "; } " +
@@ -52,20 +54,23 @@ function addColor(screenName, keyCode) {
   // TODO Change hover color too
 }
 
-function removeColor(screenName) {
+function removeHighlightingFor(screenName) {
   "use strict";
   $("#" + screenName + "_styles").remove();
 }
 
-// Sets a live watcher to colorize any tweets matching the 
-// given screenName
-function toggleColor(screenName, keyCode) {
+function toggleStorageAndColor(screenName, keyCode) {
   "use strict";
-  if ($("#" + screenName + "_styles").length > 0) {
-    removeColor(screenName);
+  if (storage[keyCode].indexOf(screenName) === -1) {
+    removeAllFromStorage(screenName);
+    removeHighlightingFor(screenName);
+    addHighlightingFor(screenName, keyCode);
+    addToStorage(screenName, keyCode);
   } else {
-    addColor(screenName, keyCode);
+    removeHighlightingFor(screenName);
+    removeAllFromStorage(screenName);
   }
+  saveStorage();
 }
 
 // Keeps track if mouse is hovering a tweet or not
@@ -80,6 +85,27 @@ function trackHover() {
   });
 }
 
+function showAllHighlights() {
+  "use strict";
+  $('#hide-highlights').remove();
+}
+
+function hideAllHighlights() {
+  "use strict";
+  var hideHighlights = "<style id='hide-highlights' type='text/css'> .tweet { background-color: white !important; } </style>";
+  $('body').append(hideHighlights);
+}
+
+function toggleAllHighlights() {
+  if ($('#hide-highlights').length > 0) {
+    showAllHighlights();
+    chrome.extension.sendRequest({icon: "color"});
+  } else {
+    hideAllHighlights();
+    chrome.extension.sendRequest({icon: "grey"});
+  }
+}
+
 function trackKeypress() {
   "use strict";
   $('body').keyup(function (e) {
@@ -89,9 +115,12 @@ function trackKeypress() {
       // If the mouse is hovering a tweet
       if (hoverTweets) {
         var screenName = hoverObject.data("screen-name");
-        toggleStorage(e.keyCode, screenName);
-        toggleColor(screenName, e.keyCode);
+        toggleStorageAndColor(screenName, e.keyCode)
+        // toggleStorage(e.keyCode, screenName);
+        // toggleColor(screenName, e.keyCode);
       }
+    } else if (e.keyCode === 48) {
+      toggleAllHighlights();
     }
   });
 }
@@ -117,7 +146,7 @@ function initializer() {
   }
   for (var key in storage) {
     $.each(storage[key], function(i,e){
-      toggleColor(e, key);
+      addHighlightingFor(e, key);
     });
   }    
 }
